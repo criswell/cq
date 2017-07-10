@@ -10,6 +10,11 @@ COLOR_ALERT='\033[4;31m' # Underline red
 COLOR_DIE='\033[30m\033[41m' # Red background, black text
 
 # Installation manifests
+MANIFEST_LIB=(
+'common.sh'
+'import.sh'
+)
+
 MANIFEST_BIN=(
 `cq`
 `cq-init`
