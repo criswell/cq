@@ -1,6 +1,6 @@
 #!/bin/bash
 
-unset BINPATH QUIET UNINSTALL || true
+unset LIBPATH BINPATH QUIET UNINSTALL || true
 
 # Shell color settings
 COLOR_RESET='\033[0m'
@@ -13,11 +13,12 @@ COLOR_DIE='\033[30m\033[41m' # Red background, black text
 MANIFEST_LIB=(
 'common.sh'
 'import.sh'
+'output.sh'
 )
 
 MANIFEST_BIN=(
-`cq`
-`cq-init`
+'cq'
+'cq-init'
 )
 
 ########################
@@ -75,6 +76,57 @@ _remove() {
   fi
 }
 
+install_cq() {
+  if [ -x "$LIBPATH/cq_install.sh" ]; then
+    trace "Previouse cq install found, uninstalling..."
+    bash $LIBPATH/cq_install.sh --uninstall
+  fi
+
+  if [ ! -d "$BINPATH" ]; then
+    mkdir -p $BINPATH
+  fi
+
+  if [ ! -d "$LIBPATH" ]; then
+    mkdir -p $LIBPATH
+  fi
+
+  trace "Installing cq libraries..."
+  for fn in "${MANIFEST_LIB[@]}"
+  do
+    cp -a lib/$fn $LIBPATH/$fn || alert "Cannot copy '$fn', was installer run from repo directory?"
+  done
+
+  trace "Installing cq binaries..."
+  for fn in "${MANIFEST_BIN[@]}"
+  do
+    cp -a bin/$fn $BINPATH/$fn || alert "Cannot copy '$fn', was installer run from repo directory?"
+  done
+  cp -a install.sh $LIBPATH/cq_install.sh || alert "Cannot copy installer,
+  was it run from repo directory?"
+
+  trace "Installation complete..."
+  trace "Please make sure that '$BINPATH' is in your \$PATH, and that \$CQLIB_PATH"
+  trace "is set in your environment to '$LIBPATH'."
+}
+
+uninstall_cq() {
+  trace "Removing cq libraries..."
+  for fn in "${MANIFEST_LIB[@]}"
+  do
+    _remove "$LIBPATH/$fn"
+  done
+
+  trace "Removing cq binaries..."
+  for fn in "${MANIFEST_BIN[@]}"
+  do
+    _remove "$BINPATH/$fn"
+  done
+
+  if [ -x "$LIBPATH/cq_install.sh" ]; then
+    _remove "$LIBPATH/cq_install.sh"
+  fi
+}
+
 #########################
 # MAIN ENTRY POINT
 #########################
@@ -87,6 +139,9 @@ usage()
 
   Usage: $PROGNAME [OPTION]
   Where [OPTION] is one of the following:
+
+  --lib=LIBPATH/        Installs the libraries to LIBPATH/
+                        (defaults to '~/lib/cq')
 
   --bin=BINPATH/        Installs to BINPATH/ (defaults to '~/bin')
 
@@ -107,6 +162,10 @@ EOF
 for i in "$@"
 do
   case $i in
+    --lib=*)
+      LIBPATH="${i#*=}"
+      shift
+      ;;
     --bin=*)
       BINPATH="${i#*=}"
       shift
@@ -136,6 +195,7 @@ do
   esac
 done
 
+[ -n "$LIBPATH" ] || LIBPATH=~/lib/cq
 [ -n "$BINPATH" ] || BINPATH=~/bin
 
 if [ -n "$UNINSTALL" ]; then
