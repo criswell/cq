@@ -17,8 +17,8 @@ MANIFEST_LIB=(
 )
 
 MANIFEST_BIN=(
-'cq'
-'cq-init'
+'git-cq'
+'git-cq-init'
 )
 
 ########################
