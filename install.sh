@@ -18,7 +18,6 @@ MANIFEST_LIB=(
 
 MANIFEST_BIN=(
 'git-cq'
-'git-cq-init'
 )
 
 ########################
