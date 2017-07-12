@@ -22,6 +22,6 @@ init_cq()
 {
   trace "Preparing for first time init..."
 
-  _set_option "default_time" "\"midnight\""
-  _set_option "default_words" "1000"
+  _set_option "defaulttime" "\"midnight\""
+  _set_option "defaultwords" "1000"
 }
