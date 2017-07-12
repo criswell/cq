@@ -5,6 +5,7 @@
 import "common.sh"
 import "output.sh"
 import "usage.sh"
+import "init.sh"
 
 for i in "$@"
 do
