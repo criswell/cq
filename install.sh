@@ -15,6 +15,7 @@ MANIFEST_LIB=(
 'import.sh'
 'output.sh'
 'usage.sh'
+'config.sh'
 )
 
 MANIFEST_BIN=(
