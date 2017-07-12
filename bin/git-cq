@@ -6,14 +6,38 @@ import "common.sh"
 import "output.sh"
 import "usage.sh"
 
-PROGNAME=${0##*/}
+for i in "$@"
+do
+  case $i in
+    init)
+      CMD_INIT=yes
+      shift
+      ;;
+    help)
+      CMD_HELP=yes
+      shift
+      ;;
+    -v|--verbose)
+      VERBOSE=yes
+      shift
+      ;;
+    -*)
+      OPTIONS+=("${i#*=}")
+      shift
+      ;;
+    *)
+      PARAMETERS+=("${i#*=}")
+      shift
+      ;;
+  esac
+done
 
-usage()
-{
-    cat <<EOF
-
-Usage: $PROGNAME
-EOF
-}
+if [ -n "$CMD_HELP" ]; then
+  usage
+  exit 0
+elif [ -n "$CMD_INIT" ]; then
+  init_cq
+  exit 0
+fi
 
 
