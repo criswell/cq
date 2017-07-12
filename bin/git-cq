@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+. $CQLIB_PATH/import.sh
+
+import "common.sh"
+import "output.sh"
+import "usage.sh"
+
 PROGNAME=${0##*/}
 
 usage()
