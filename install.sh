@@ -17,6 +17,7 @@ MANIFEST_LIB=(
 'usage.sh'
 'config.sh'
 'init.sh'
+'logic.sh'
 )
 
 MANIFEST_BIN=(

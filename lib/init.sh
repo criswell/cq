@@ -24,4 +24,5 @@ init_cq()
 
   _set_option "defaulttime" "\"midnight\""
   _set_option "defaultwords" "1000"
+  _set_option "defaultfilter" ".md\|.txt\|.asc\.adoc"
 }

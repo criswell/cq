@@ -10,7 +10,7 @@ unset CMD_HELP CMD_INIT || true
 unset VERBOSE || true
 
 # Parameters
-OPTIONS=()
+declare -a OPTIONS
 PARAMETERS=()
 
 # Determines if an executable exists and is on path
@@ -24,11 +24,17 @@ has_option() {
   # couldn't get it to work right. So, I went with this, which is ugly but
   # works
   local _found=1
-  for i in "${OPTIONS[@]}"
+  for i in "${!OPTIONS[@]}"
   do
     if [[ "$*" == $i ]]; then
       _found=0
     fi
   done
   return $_found
+}
+
+# Check if directory is git repo
+is_git_repo()
+{
+  return $(git -C $# rev-parse)
 }

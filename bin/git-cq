@@ -6,6 +6,7 @@ import "common.sh"
 import "output.sh"
 import "usage.sh"
 import "init.sh"
+import "logic.sh"
 
 for i in "$@"
 do
@@ -23,7 +24,8 @@ do
       shift
       ;;
     -*)
-      OPTIONS+=("${i#*=}")
+      OPTIONS+=([$1]="${i#*=}")
+      #OPTIONS+=("${i#*=}")
       shift
       ;;
     *)
@@ -41,4 +43,13 @@ elif [ -n "$CMD_INIT" ]; then
   exit 0
 fi
 
+# Default operation is to compute count
+echo "${!OPTIONS[@]}"
 
+if has_option "-p"; then
+  echo "${OPTIONS[-p]}"
+fi
+
+echo "--"
+
+echo "$PARAMETERS"

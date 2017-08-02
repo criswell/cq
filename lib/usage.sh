@@ -24,6 +24,9 @@ usage_full()
 
     -v            Run verbosely
 
+    -p|           Set the path for the git repo (if not used, will use current
+                  working directory)
+
 EOF
 }
 
